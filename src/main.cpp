@@ -5,19 +5,21 @@
 #include "Cell.h"
 
 const unsigned WindowDimen[] = {800,600};
+const unsigned debugSeed = 1807;
+const unsigned CellDimen = 10;
 
 void renderWorld(World world, sf::RenderWindow& window, sf::RectangleShape square);
 void seedWorld(World& world);
 
 int main(int argc, char** argv)
 {
-  srand(1807);
-  World world(WindowDimen[0]/10,WindowDimen[1]/10);
+  srand(debugSeed);
+  World world(WindowDimen[0]/CellDimen,WindowDimen[1]/CellDimen);
   world.addType();
   seedWorld(world);
   sf::RenderWindow window(sf::VideoMode(WindowDimen[0],WindowDimen[1]), "CellSpace");
   window.setFramerateLimit(10);
-  sf::RectangleShape square(sf::Vector2f(10, 10));
+  sf::RectangleShape square(sf::Vector2f(CellDimen, CellDimen));
   square.setFillColor(sf::Color::Green);
   while (window.isOpen())
   {
@@ -48,10 +50,10 @@ void renderWorld(World world, sf::RenderWindow& window, sf::RectangleShape squar
 	square.setPosition(x,y);
 	window.draw(square);
       }
-      x = (x + 10);
+      x = (x + CellDimen);
       if (x == WindowDimen[0])
       {
-	y = y + 10;
+	y = y + CellDimen;
 	x = 0;
       }
     }
@@ -59,7 +61,7 @@ void renderWorld(World world, sf::RenderWindow& window, sf::RectangleShape squar
 
 void seedWorld(World& world)
 {
-  std::vector<int> seed(WindowDimen[0]/10 * WindowDimen[1]/10, 0);
+  std::vector<int> seed(WindowDimen[0]/CellDimen * WindowDimen[1]/CellDimen, 0);
   for (unsigned i = 0; i < seed.size(); i++)
   {
     unsigned k = rand()%20;

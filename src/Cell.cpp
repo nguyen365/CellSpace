@@ -1,12 +1,12 @@
 #include "Cell.h"
 
-Colour::Colour(int id)
+Type::Type(int id)
   : ID(id)
 {
  ; 
 }
 
-int Colour::getID()
+int Type::getID()
 {
   return ID;
 }
@@ -23,7 +23,7 @@ Cell::~Cell()
   ;
 }
 
-void Cell::SetOwner(Colour* newOwner)
+void Cell::SetOwner(Type* newOwner)
 {
   owner = newOwner;
 }
@@ -38,7 +38,7 @@ bool Cell::isAlive()
   return alive;
 }
 
-Colour Cell::getOwner()
+Type Cell::getOwner()
 {
   return *owner;
 }
@@ -48,8 +48,8 @@ World::World(int x, int y)
   Dimen[0] = x;
   Dimen[1] = y;
   addType();
-  for (unsigned i = 0; i < y; i++)
-    for (unsigned j = 0; j < x; j++)
+  for (int i = 0; i < y; i++)
+    for (int j = 0; j < x; j++)
     {
       Population.push_back(Cell(j,i));
       Population[i * x + j].SetOwner(Types[0]);
@@ -150,7 +150,7 @@ void World::SeedWorld(std::vector<int> init)
 
 void World::addType()
 {
-  Colour* newType = new Colour(Types.size());
+  Type* newType = new Type(Types.size());
   Types.push_back(newType);
 }
 
