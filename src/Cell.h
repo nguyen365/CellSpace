@@ -2,6 +2,8 @@
 
 #ifndef __CELL_H__
 #define __CELL_H__
+const unsigned numNeighbours = 8;
+enum GameRules {Conway};
 
 class Type
 {
@@ -32,14 +34,24 @@ class World
 {
 private:  
   int Dimen[2];
+  bool Growth[numNeighbours+1];
+  bool Lives[numNeighbours+1];
   std::vector<Cell> Population;
   std::vector<Type*> Types;
 public:
   World(int x, int y);
+  void Init(GameRules rules);
+  void AddGrowthRule(unsigned k);
+  void AddLivesRule(unsigned k);
+  void RemoveGrowthRule(unsigned k);
+  void RemoveLivesRule(unsigned k);
+  void RemoveAllRules();
   void Iterate();
   void SeedWorld(std::vector<Type> init);
   void SeedWorld(std::vector<int> init);
   void addType();
+  bool CheckGrowsOn(unsigned k);
+  bool CheckLivesOn(unsigned k);
   std::vector<int> getWorldWithID();
 };
 

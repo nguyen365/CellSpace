@@ -15,6 +15,7 @@ int main(int argc, char** argv)
 {
   srand(debugSeed);
   World world(WindowDimen[0]/CellDimen,WindowDimen[1]/CellDimen);
+  world.Init(Conway);
   world.addType();
   seedWorld(world);
   sf::RenderWindow window(sf::VideoMode(WindowDimen[0],WindowDimen[1]), "CellSpace");
@@ -64,7 +65,7 @@ void seedWorld(World& world)
   std::vector<int> seed(WindowDimen[0]/CellDimen * WindowDimen[1]/CellDimen, 0);
   for (unsigned i = 0; i < seed.size(); i++)
   {
-    unsigned k = rand()%20;
+    unsigned k = rand()%10;
     if (k == 0)
       seed[i] = 1;
   }

@@ -47,6 +47,7 @@ World::World(int x, int y)
 {
   Dimen[0] = x;
   Dimen[1] = y;
+  RemoveAllRules();
   addType();
   for (int i = 0; i < y; i++)
     for (int j = 0; j < x; j++)
@@ -55,6 +56,50 @@ World::World(int x, int y)
       Population[i * x + j].SetOwner(Types[0]);
       Population[i * x + j].setAlive(false);
     }
+}
+
+void World::Init(GameRules rules)
+{
+  if (rules == Conway)
+  {
+    RemoveAllRules();
+    AddGrowthRule(3);
+    AddLivesRule(2);
+    AddLivesRule(3);
+  }
+}
+
+void World::AddGrowthRule(unsigned k)
+{
+  if (k >= 0 && k <= numNeighbours)
+    Growth[k] = true;
+}
+
+void World::AddLivesRule(unsigned k)
+{
+  if (k >= 0 && k <= numNeighbours)
+    Lives[k] = true;
+}
+
+void World::RemoveGrowthRule(unsigned k)
+{
+  if (k >= 0 && k <= numNeighbours)
+    Growth[k] = false;
+}
+
+void World::RemoveLivesRule(unsigned k)
+{
+  if (k >= 0 && k <= numNeighbours)
+    Lives[k] = false;
+}
+
+void World::RemoveAllRules()
+{
+  for (unsigned i = 0; i <= numNeighbours; i++)
+  {
+    RemoveGrowthRule(i);
+    RemoveLivesRule(i);
+  }
 }
 
 void World::Iterate()
@@ -130,15 +175,16 @@ void World::Iterate()
       if (i - 1 >= 0 && j + 1 < Dimen[1] && Population[Dimen[0] * (j+1) + (i-1)].isAlive())
 	count++;
       
-      if (count == 3 && !(Population[Dimen[0] * j + i].isAlive()))
-	Population[Dimen[0] * j + i].setAlive(true);
-      else if ((count == 2 || count == 3) && 
-	      (Population[Dimen[0] * j + i].isAlive()))
-	Population[Dimen[0] * j + i].setAlive(true);
+      if (CheckGrowsOn(count) && 
+	  !(Population[Dimen[0] * j + i].isAlive()))
+	newGeneration[Dimen[0] * j + i].setAlive(true);
+      else if (CheckLivesOn(count) && 
+	       (Population[Dimen[0] * j + i].isAlive()))
+	newGeneration[Dimen[0] * j + i].setAlive(true);
       else
-	Population[Dimen[0] * j + i].setAlive(false);
+	newGeneration[Dimen[0] * j + i].setAlive(false);
     }
-    //Population = newGeneration;
+    Population = newGeneration;
 }
 
 void World::SeedWorld(std::vector<int> init)
@@ -163,4 +209,14 @@ std::vector<int> World::getWorldWithID()
     else
       retVal.push_back(0);
   return retVal;
+}
+
+bool World::CheckGrowsOn(unsigned k)
+{
+  return Growth[k];
+}
+
+bool World::CheckLivesOn(unsigned k)
+{
+  return Lives[k];
 }
