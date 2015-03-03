@@ -60,13 +60,89 @@ World::World(int x, int y)
 
 void World::Init(GameRules rules)
 {
-  if (rules == Conway)
+  RemoveAllRules();
+  switch (rules)
   {
-    RemoveAllRules();
-    AddGrowthRule(3);
-    AddLivesRule(2);
-    AddLivesRule(3);
-  }
+    case Conway:
+      AddGrowthRule(3);
+      AddLivesRule(2);
+      AddLivesRule(3);
+      break;
+    case Replicator:
+      AddGrowthRule(1);
+      AddGrowthRule(3);
+      AddGrowthRule(5);
+      AddGrowthRule(7);
+      AddLivesRule(1);
+      AddLivesRule(3);
+      AddLivesRule(5);
+      AddLivesRule(7);
+      break;
+    case Seeds:
+      AddGrowthRule(2);
+      break;
+    case LifeWithoutDeath:
+      AddGrowthRule(3);
+      AddLivesRule(0);
+      AddLivesRule(1);
+      AddLivesRule(2);
+      AddLivesRule(3);
+      AddLivesRule(4);
+      AddLivesRule(5);
+      AddLivesRule(6);
+      AddLivesRule(7);
+      AddLivesRule(8);
+      break;
+    case Life34:
+      AddGrowthRule(3);
+      AddGrowthRule(4);
+      AddLivesRule(3);
+      AddLivesRule(4);
+      break;
+    case Diamoeba:
+      AddGrowthRule(3);
+      AddGrowthRule(5);
+      AddGrowthRule(6);
+      AddGrowthRule(7);
+      AddGrowthRule(8);
+      AddLivesRule(5);
+      AddLivesRule(6);
+      AddLivesRule(7);
+      AddLivesRule(8);
+      break;
+    case TwoByTwo:
+      AddGrowthRule(3);
+      AddGrowthRule(6);
+      AddLivesRule(1);
+      AddLivesRule(2);
+      AddLivesRule(5);
+      break;
+    case HighLife:
+      AddGrowthRule(3);
+      AddGrowthRule(6);
+      AddLivesRule(2);
+      AddLivesRule(3);
+      break;
+    case DayAndNight:
+      AddGrowthRule(3);
+      AddGrowthRule(6);
+      AddGrowthRule(7);
+      AddGrowthRule(8);
+      AddLivesRule(3);
+      AddLivesRule(4);
+      AddLivesRule(6);
+      AddLivesRule(7);
+      AddLivesRule(8);
+      break;
+    case Morley:
+      AddGrowthRule(3);
+      AddGrowthRule(6);
+      AddGrowthRule(8);
+      AddLivesRule(2);
+      AddLivesRule(4);
+      AddLivesRule(5);
+      break;
+  } 
 }
 
 void World::AddGrowthRule(unsigned k)

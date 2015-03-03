@@ -3,7 +3,9 @@
 #ifndef __CELL_H__
 #define __CELL_H__
 const unsigned numNeighbours = 8;
-enum GameRules {Conway};
+enum GameRules {Conway, Replicator, Seeds, LifeWithoutDeath, 
+  Life34, Diamoeba, TwoByTwo, HighLife, DayAndNight, Morley
+};
 
 class Type
 {
